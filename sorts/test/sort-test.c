@@ -1,0 +1,99 @@
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+#include <time.h>
+
+#include "sorts.h"
+
+#define ARR_MEMBERS(arr) sizeof((arr))/sizeof(arr[0])
+
+#define NL "\n"
+
+#define NAMED(symbol) {.sort_f=(symbol),.algo_name=#symbol}
+struct {
+    sorter_t sort_f;
+    char *algo_name;
+} sortss[] = {
+    NAMED(bubble),
+};
+#undef NAMED
+/*
+sorter_t sorts[] = {
+    bubble,
+    // insertion,
+    // merge,
+    // qsort,
+};
+*/
+
+static const int n_elems = 4096; // Tweak this value for test.
+
+static 
+int assert_ascending(int *arr, size_t n){
+    for (size_t i = 0; i < n-1; i++){
+        if (arr[i] > arr[i+1]){
+            return -1;
+        }
+    }
+    return 0;
+}
+
+
+// Test each sort in `sorts`.
+void test_sort(void){
+    sorter_t sort_f;
+    char const *name;
+    struct timespec t0, dt;
+    double us;
+    int *shuffled_arr, *subj_arr;
+    int res;
+
+    /* Init a shuffled array, then copy it. */
+    shuffled_arr = malloc(sizeof(int)*n_elems);
+    for (int i = 0; i < n_elems; i++){
+        shuffled_arr[i] = i;
+    }
+    shuffle(shuffled_arr, n_elems);
+    subj_arr = malloc(sizeof(int)*n_elems);
+
+    printf("Testing sort on array of %d integers."NL, n_elems);
+
+    for (size_t i = 0; i < ARR_MEMBERS(sortss); i++){
+        sort_f = sortss[i].sort_f;
+        name = sortss[i].algo_name;
+        memcpy(subj_arr, shuffled_arr, sizeof(int)*n_elems);
+        printf("Test sorting algorithm: %s...", name);
+        
+        clock_gettime(CLOCK_MONOTONIC, &t0);
+        sort_f(subj_arr, n_elems);
+        clock_gettime(CLOCK_MONOTONIC, &dt);
+        res = assert_ascending(subj_arr, n_elems);
+        if (res != 0){
+            printf("Assertion violated on `%s`: array not in ascending order!"NL, name);
+            abort();
+        }
+        
+        if (dt.tv_nsec < t0.tv_nsec){
+            dt.tv_nsec += 1000000000;
+            dt.tv_sec -= 1;
+        }
+        dt.tv_sec -= t0.tv_sec;
+        dt.tv_nsec -= t0.tv_nsec;
+        us = ((double)dt.tv_sec)*1e6 + ((double)dt.tv_nsec)/1e3;
+        us /= (double)n_elems;
+        printf("avg time: %.3lf us/element"NL, us);
+    }
+
+    free(shuffled_arr);
+    free(subj_arr);
+
+    return;
+}
+
+int main(void){
+    setbuf(stdout, NULL);
+    test_sort();
+    return 0;
+}
