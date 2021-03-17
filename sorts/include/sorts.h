@@ -17,12 +17,14 @@ typedef void (*sorter_t)(int *, size_t);
 
 void shuffle(int *arr, size_t n);
 
+// Uncomment symbol on complete.
 void bubble(int *arr, size_t n);
+void selection(int *arr, size_t n);
 void insertion(int *arr, size_t n);
-void merge(int *arr, size_t n);
+//void merge(int *arr, size_t n);
 // Avoid redefining `qsort` in <stdlib.h>.
 // TODO: write a not so obscured version of glibc qsort.
-void quicksort(int *arr, size_t n);
+//void quicksort(int *arr, size_t n);
 
 
 #endif

@@ -29,7 +29,8 @@ BINDIR = bin
 CFLAGS += $(addprefix -I,$(INCDIR))
 
 
-SRCNAMES := shuffle.c bubble.c # insertion.c merge.c qsort.c
+SRCNAMES := shuffle.c bubble.c selection.c insertion.c \
+	# merge.c quicksort.c
 SRCFILES := $(addprefix $(SRCDIR)/,$(SRCNAMES))
 INCNAMES := sorts.h # Currently not used.
 INCFILES := $(addprefix $(INCDIR)/,$(INCNAMES))

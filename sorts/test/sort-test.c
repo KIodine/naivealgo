@@ -7,6 +7,12 @@
 
 #include "sorts.h"
 
+/*
+    An naive test framework for sorting algorithms with dataset:
+    - Integer(C99 int on x86_64(linux 5.4), arch: Xeon-E3 1230v3)
+    - Randomly distributed
+*/
+
 #define ARR_MEMBERS(arr) sizeof((arr))/sizeof(arr[0])
 
 #define NL "\n"
@@ -17,23 +23,20 @@ struct {
     char *algo_name;
 } sortss[] = {
     NAMED(bubble),
+    NAMED(selection),
+    NAMED(insertion),
 };
 #undef NAMED
-/*
-sorter_t sorts[] = {
-    bubble,
-    // insertion,
-    // merge,
-    // qsort,
-};
-*/
 
-static const int n_elems = 4096; // Tweak this value for test.
+
+static const int n_elems = 8192; // Tweak this value for test.
 
 static 
 int assert_ascending(int *arr, size_t n){
     for (size_t i = 0; i < n-1; i++){
         if (arr[i] > arr[i+1]){
+            printf("Assertion violated: [%ld]=%d > [%ld]=%d"NL,
+                i, arr[i], i+1, arr[i+1]);
             return -1;
         }
     }
@@ -63,6 +66,7 @@ void test_sort(void){
     for (size_t i = 0; i < ARR_MEMBERS(sortss); i++){
         sort_f = sortss[i].sort_f;
         name = sortss[i].algo_name;
+        // Dup shuffled array to subject.
         memcpy(subj_arr, shuffled_arr, sizeof(int)*n_elems);
         printf("Test sorting algorithm: %s...", name);
         
