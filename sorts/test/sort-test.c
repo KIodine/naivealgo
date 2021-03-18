@@ -17,19 +17,8 @@
 
 #define NL "\n"
 
-#define NAMED(symbol) {.sort_f=(symbol),.algo_name=#symbol}
-struct {
-    sorter_t sort_f;
-    char *algo_name;
-} sortss[] = {
-    NAMED(bubble),
-    NAMED(selection),
-    NAMED(insertion),
-};
-#undef NAMED
 
-
-static const int n_elems = 8192; // Tweak this value for test.
+static const int n_elems = 16384; // Tweak this value for test.
 
 static 
 int assert_ascending(int *arr, size_t n){
@@ -42,6 +31,35 @@ int assert_ascending(int *arr, size_t n){
     }
     return 0;
 }
+
+static
+int int_cmp(const void *a, const void *b){
+    int x = *(int*)a, y = *(int*)b;
+    return x > y;
+}
+
+// The baseline of all sorting algorithm.
+static
+void qsort_wrap(int *arr, size_t n){
+    return qsort(arr, n, sizeof(int), int_cmp);
+}
+
+
+#define NAMED(symbol) {.sort_f=(symbol),.algo_name=#symbol}
+struct {
+    sorter_t sort_f;
+    char *algo_name;
+} sortss[] = {
+    /*
+    */
+    NAMED(qsort_wrap), // glibc qsort as baseline.
+    NAMED(bubble),
+    NAMED(selection),
+    NAMED(insertion),
+    NAMED(heapsort),
+    NAMED(heapsort_canon),
+};
+#undef NAMED
 
 
 // Test each sort in `sorts`.

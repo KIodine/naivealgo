@@ -11,6 +11,7 @@
     - In-place
     - Stable
     - Simplicity(though complexity is O(n^2))
+    - Adaptive, fast if list is near-sorted.
     */
 
 // Insertion sort, in ascending order.

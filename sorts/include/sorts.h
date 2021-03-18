@@ -21,6 +21,8 @@ void shuffle(int *arr, size_t n);
 void bubble(int *arr, size_t n);
 void selection(int *arr, size_t n);
 void insertion(int *arr, size_t n);
+void heapsort(int *arr, size_t n);
+void heapsort_canon(int *arr, size_t n);
 //void merge(int *arr, size_t n);
 // Avoid redefining `qsort` in <stdlib.h>.
 // TODO: write a not so obscured version of glibc qsort.
