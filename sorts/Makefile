@@ -30,7 +30,7 @@ CFLAGS += $(addprefix -I,$(INCDIR))
 
 
 SRCNAMES := shuffle.c bubble.c selection.c insertion.c heapsort.c \
-	# merge.c quicksort.c
+merge.c # quicksort.c
 SRCFILES := $(addprefix $(SRCDIR)/,$(SRCNAMES))
 INCNAMES := sorts.h # Currently not used.
 INCFILES := $(addprefix $(INCDIR)/,$(INCNAMES))
@@ -73,6 +73,7 @@ shared: CFLAGS += -fPIC
 shared: $(LIBDIR)/lib$(PROJ_NAME).so
 # > !phony targets always need update.
 
+$(BINDIR)/$(PROJ_NAME)-test: CFLAGS += -fPIC
 $(BINDIR)/$(PROJ_NAME)-test: $(LIBDIR)/lib$(PROJ_NAME).so $(TSTDST)
 	$(CC) $(CFLAGS) -o $@ \
 	-L$(LIBDIR) -Wl,-rpath,$(LIBDIR) $(TSTDST) -l$(PROJ_NAME) 
@@ -99,8 +100,8 @@ gen_deplist:
 
 # --- DO NOT MODIFY MANUALLY ---
 bubble.o: src/bubble.c include/sorts.h src/routines.h
-#insertion.o: src/insertion.c include/sorts.h src/routines.h
-#merge.o: src/merge.c
+insertion.o: src/insertion.c include/sorts.h src/routines.h
+merge.o: src/merge.c
 #quicksort.o: src/quicksort.c
 shuffle.o: src/shuffle.c include/sorts.h src/routines.h
 sort-test.o: test/sort-test.c include/sorts.h

@@ -18,7 +18,7 @@
 #define NL "\n"
 
 
-static const int n_elems = 16384; // Tweak this value for test.
+static const int n_elems = 16000; // Tweak this value for test.
 
 static 
 int assert_ascending(int *arr, size_t n){
@@ -50,14 +50,15 @@ struct {
     sorter_t sort_f;
     char *algo_name;
 } sortss[] = {
-    /*
-    */
     NAMED(qsort_wrap), // glibc qsort as baseline.
     NAMED(bubble),
     NAMED(selection),
     NAMED(insertion),
     NAMED(heapsort),
     NAMED(heapsort_canon),
+    /*
+    */
+    NAMED(mergesort),
 };
 #undef NAMED
 
