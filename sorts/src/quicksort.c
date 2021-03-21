@@ -21,7 +21,7 @@
 // Partition algorithm using lomuto's algo, returns the index where
 // pivot at in the end.
 static inline size_t
-partition(int *arr, size_t pivot_idx, size_t n){
+lomuto_partition(int *arr, size_t pivot_idx, size_t n){
     // i: The candidate index of swapping.
     // j: Index currently being inspected.
     size_t i = 0, j = 0;
@@ -43,18 +43,26 @@ partition(int *arr, size_t pivot_idx, size_t n){
     return i;
 }
 
+// static inline hoare_pratition(int *arr, size_t pivot_idx, size_t n);
+
 /* Quicksort using recursive method, sorting list in ascending order. */
 void quicksort_recur(int *arr, size_t n){
     // Simply choose the middle of list as pivot.
     size_t pivot = (n >> 1) - 1;
     
+    // TODO: test other pivot-choosing algo.
+
     // Avoid small `n` causes `pivot` underflows.
     if (n <= 1){
         return;
     }
 
-    pivot = partition(arr, pivot, n);
+    pivot = lomuto_partition(arr, pivot, n);
     quicksort_recur(arr, pivot+1);
     quicksort_recur(&arr[pivot+1], n-(pivot+1));
     return;
 }
+
+
+// Quicksort using on-stack fixed size stack.
+// void quicksort_stack(int *arr, size_t n);
