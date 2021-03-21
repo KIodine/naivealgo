@@ -1,2 +1,5 @@
 *.o
 .vscode
+TODO
+*.so
+*.a
