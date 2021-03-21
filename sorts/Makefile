@@ -30,7 +30,7 @@ CFLAGS += $(addprefix -I,$(INCDIR))
 
 
 SRCNAMES := shuffle.c bubble.c selection.c insertion.c heapsort.c \
-merge.c # quicksort.c
+merge.c quicksort.c
 SRCFILES := $(addprefix $(SRCDIR)/,$(SRCNAMES))
 INCNAMES := sorts.h # Currently not used.
 INCFILES := $(addprefix $(INCDIR)/,$(INCNAMES))

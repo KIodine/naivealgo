@@ -18,12 +18,13 @@
 #define NL "\n"
 
 
-static const int n_elems = 16000; // Tweak this value for test.
+static const int n_elems = 32000; // Tweak this value for test.
 
+// Check is strictly ascending and numbers are not broke.
 static 
 int assert_ascending(int *arr, size_t n){
     for (size_t i = 0; i < n-1; i++){
-        if (arr[i] > arr[i+1]){
+        if (arr[i] > arr[i+1] || (arr[i+1] - arr[i] != 1)){
             printf("Assertion violated: [%ld]=%d > [%ld]=%d"NL,
                 i, arr[i], i+1, arr[i+1]);
             return -1;
@@ -56,9 +57,10 @@ struct {
     NAMED(insertion),
     NAMED(heapsort),
     NAMED(heapsort_canon),
+    NAMED(mergesort),
     /*
     */
-    NAMED(mergesort),
+    NAMED(quicksort_recur),
 };
 #undef NAMED
 
