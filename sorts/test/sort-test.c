@@ -52,14 +52,14 @@ struct {
     char *algo_name;
 } sortss[] = {
     NAMED(qsort_wrap), // glibc qsort as baseline.
+    /*
+    */
     NAMED(bubble),
     NAMED(selection),
     NAMED(insertion),
     NAMED(heapsort),
     NAMED(heapsort_canon),
     NAMED(mergesort),
-    /*
-    */
     NAMED(quicksort_recur),
 };
 #undef NAMED

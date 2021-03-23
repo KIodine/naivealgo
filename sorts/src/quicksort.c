@@ -43,26 +43,43 @@ lomuto_partition(int *arr, size_t pivot_idx, size_t n){
     return i;
 }
 
-// static inline hoare_pratition(int *arr, size_t pivot_idx, size_t n);
+static inline 
+size_t hoare_partition(int arr[], size_t pivot_idx, size_t n){
+    size_t lo = 0, hi = n - 1;
+    int mid = arr[pivot_idx];
+
+    for (;;){
+        for (;arr[lo] < mid;){
+            lo += 1;
+        }
+        for (;mid < arr[hi];){
+            hi -= 1;
+        }
+        if (lo >= hi){
+            break;
+        }
+        if (lo < hi){
+            byte_swap(&arr[lo], &arr[hi], sizeof(int));
+            lo += 1;
+            hi -= 1;
+        }
+    }
+    return lo < hi? lo: hi;
+}
 
 /* Quicksort using recursive method, sorting list in ascending order. */
 void quicksort_recur(int *arr, size_t n){
     // Simply choose the middle of list as pivot.
     size_t pivot = (n >> 1) - 1;
-    
-    // TODO: test other pivot-choosing algo.
 
     // Avoid small `n` causes `pivot` underflows.
     if (n <= 1){
         return;
     }
 
-    pivot = lomuto_partition(arr, pivot, n);
+    //pivot = lomuto_partition(arr, pivot, n);
+    pivot = hoare_partition(arr, pivot, n);
     quicksort_recur(arr, pivot+1);
     quicksort_recur(&arr[pivot+1], n-(pivot+1));
     return;
 }
-
-
-// Quicksort using on-stack fixed size stack.
-// void quicksort_stack(int *arr, size_t n);
