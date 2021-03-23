@@ -1,0 +1,9 @@
+A repository with implementations of various algorithms, currently including:
+- Sorting:
+    - bubble sort
+    - insertion sort
+    - selection sort
+    - heap sort
+    - merge sort
+    - quicksort
+- ...
